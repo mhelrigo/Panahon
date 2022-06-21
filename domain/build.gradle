@@ -1,0 +1,15 @@
+plugins {
+    id 'java-library'
+}
+
+import com.mhelrigo.buildsrc.*
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+dependencies {
+    implementation Dependencies.RxJava.RX_ANDROID
+    implementation Dependencies.RxJava.RX_JAVA
+}

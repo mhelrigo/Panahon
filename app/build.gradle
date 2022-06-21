@@ -1,0 +1,69 @@
+plugins {
+    id 'com.android.application'
+}
+
+import com.mhelrigo.buildsrc.*
+
+android {
+    compileSdk Dependencies.AndroidBuildDetails.COMPILED_SDK
+
+    defaultConfig {
+        applicationId Dependencies.AndroidBuildDetails.APPLICATION_ID
+        minSdk Dependencies.AndroidBuildDetails.MIN_SDK
+        targetSdk Dependencies.AndroidBuildDetails.TARGET_SDK
+        versionCode Dependencies.AndroidBuildDetails.VERSION_CODE
+        versionName Dependencies.AndroidBuildDetails.VERSION_NAME
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled Dependencies.AndroidBuildDetails.BuildTypes.IS_MINIFY
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    testOptions {
+        unitTests {
+            includeAndroidResources true
+        }
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    implementation project(path: ":domain")
+    implementation project(path: ":data")
+
+    implementation Dependencies.AndroidX.APP_COMPAT
+    implementation Dependencies.AndroidUi.MATERIAL_DESIGN
+    implementation Dependencies.AndroidX.CONSTRAINT_LAYOUT
+    implementation Dependencies.AndroidX.ACTIVITY
+    implementation Dependencies.AndroidX.VIEW_MODEL
+    implementation Dependencies.AndroidX.VIEW_MODEL_KTX
+    implementation Dependencies.AndroidX.NAVIGATION_FRAGMENT
+    implementation Dependencies.AndroidX.NAVIGATION_UI
+
+    testImplementation Dependencies.TestImpl.JUNIT
+    androidTestImplementation Dependencies.AndroidTestImpl.EXT_JUNIT
+    androidTestImplementation Dependencies.AndroidTestImpl.ESPRESSO_CORE
+    testImplementation Dependencies.AndroidTestImpl.TEST_CORE
+    testImplementation Dependencies.AndroidTestImpl.ROBOELECTRIC
+    androidTestImplementation Dependencies.AndroidTestImpl.ARCH_CORE_TESTING
+
+    implementation Dependencies.RxJava.RX_ANDROID
+    implementation Dependencies.RxJava.RX_JAVA
+
+    implementation Dependencies.GoogleServices.LOCATION
+
+    implementation Dependencies.Logging.TIMBER
+
+    implementation Dependencies.AndroidUi.GLIDE
+    annotationProcessor Dependencies.AndroidUi.GLIDE_ANNOTATION_COMPILER
+}

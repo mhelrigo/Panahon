@@ -1,0 +1,52 @@
+plugins {
+    id 'com.android.library'
+}
+
+import com.mhelrigo.buildsrc.*
+
+def panahonPropertiesFile = rootProject.file("panahon.properties")
+def panahonProperties = new Properties()
+panahonProperties.load(new FileInputStream(panahonPropertiesFile))
+
+android {
+    compileSdk Dependencies.AndroidBuildDetails.COMPILED_SDK
+
+    defaultConfig {
+        minSdk Dependencies.AndroidBuildDetails.MIN_SDK
+        targetSdk Dependencies.AndroidBuildDetails.TARGET_SDK
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
+
+        buildConfigField("String", "API_KEY", panahonProperties['API_KEY'])
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled Dependencies.AndroidBuildDetails.BuildTypes.IS_MINIFY
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    implementation project(path: ":domain")
+
+    implementation Dependencies.RxJava.RX_ANDROID
+    implementation Dependencies.RxJava.RX_JAVA
+
+    implementation Dependencies.NetworkConnection.RETROFIT
+    implementation Dependencies.NetworkConnection.GSON
+    implementation Dependencies.NetworkConnection.RETROFIT_CONVERTER_GSON
+    implementation Dependencies.NetworkConnection.RETROFIT_ADAPTER_RXJAVA3
+    implementation Dependencies.NetworkConnection.OKHTTP_LOGGING_INTERCEPTOR
+
+    implementation Dependencies.Room.ROOM_RUNTIME
+    annotationProcessor Dependencies.Room.ROOM_COMPILER
+    implementation Dependencies.Room.ROOM_RX_JAVA_3
+    implementation Dependencies.Room.ROOM_TEST_HELPER
+}
